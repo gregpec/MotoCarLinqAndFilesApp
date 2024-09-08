@@ -16,7 +16,7 @@ namespace MotoAppmod4App.Components.DataProviders
         public List<string> GetUnqiueCarColors()
         {
             var cars = _carsRepository.GetAll();
-            var colors = cars.Select(x => x.Color).Distinct().ToList(); //unikatowe kolory IUnerable to List trzeba fać
+            var colors = cars.Select(x => x.Color).Distinct().ToList();
             return colors;
         }
         public decimal GetMinimumPriceOfAllCars()
@@ -35,11 +35,11 @@ namespace MotoAppmod4App.Components.DataProviders
                 Type = car.Type,
             }).ToList();
             return list;
-            // wyciaganie danych do klasy anonimowej
+       
         }
         public string AnonymousClass()
         {
-            var cars = _carsRepository.GetAll(); // tworzenie metod animowych roboczo poewne informache na potzreby ondormacji użycie selecta;
+            var cars = _carsRepository.GetAll(); 
 
             var list = cars.Select(car => new
             {
@@ -47,8 +47,6 @@ namespace MotoAppmod4App.Components.DataProviders
                 ProductName = car.Name,
                 ProductSize = car.Type
             });
-
-            //przeiterowanie 
             StringBuilder sb = new(2048);
             foreach (var car in list)
             {
@@ -58,43 +56,37 @@ namespace MotoAppmod4App.Components.DataProviders
             }
             return sb.ToString();
         }
-
-        //sortowanie
         public List<Car> OrderByName()
 
         {
             var cars = _carsRepository.GetAll();
-            return cars.OrderBy(x => x.Name).ToList(); //OrderBy - metoda zdefiniowana
+            return cars.OrderBy(x => x.Name).ToList(); 
         }
 
         public List<Car> OrderByNameDescending()
 
         {
             var cars = _carsRepository.GetAll();
-            return cars.OrderByDescending(x => x.Name).ToList(); // odwrócenie kolejnosci
+            return cars.OrderByDescending(x => x.Name).ToList(); 
         }
-
         public List<Car> OrderByColorAndName()
 
         {
             var cars = _carsRepository.GetAll();
             return cars
-                .OrderBy(x => x.Color) //sortowanie po kolorze
-                .ThenBy(x => x.Name)  //sortowanie po nazwie
-                .ToList();      // sortowanie po ...
-
+                .OrderBy(x => x.Color) 
+                .ThenBy(x => x.Name)  
+                .ToList();    
         }
-
         public List<Car> OrderByColorAndNameDesc()
 
         {
             var cars = _carsRepository.GetAll();
             return cars
-                .OrderByDescending(x => x.Color) //sortowanie po kolorze odwrocenienie
-                .ThenByDescending(x => x.Name)  //sortowanie po nazwie
-                .ToList();      // sortowanie po ...
+                .OrderByDescending(x => x.Color) 
+                .ThenByDescending(x => x.Name) 
+                .ToList();    
         }
-        //where
         public List<Car> WhereStartsWith(string prefix)
         {
             var cars = _carsRepository.GetAll();
@@ -104,16 +96,15 @@ namespace MotoAppmod4App.Components.DataProviders
         public List<Car> WhereStartsWithAndCostIsGraterThan(string prefix, decimal cost)
         {
             var cars = _carsRepository.GetAll();
-            return cars.Where(x => x.Name.StartsWith(prefix) && x.StandardCost > cost).ToList(); //where z dwoma warunkami 
+            return cars.Where(x => x.Name.StartsWith(prefix) && x.StandardCost > cost).ToList(); 
         }
-        public List<Car> WhereColorIs(string color)  // [rzeniesienie do extention metod implementujac IEnumerable
-        {
-            //wykorzystanie extentions chyba robienie tego samego na wiele sposobów
+        public List<Car> WhereColorIs(string color)  
+        {          
             var cars = _carsRepository.GetAll();
-            return cars.ByColor("Red").ToList(); // extension metod do LINQ
+            return cars.ByColor("Red").ToList(); 
         }
 
-        public Car FirstByColor(string color)  //pierwszy samochód danego koloru  zwraca exception gdy niema samochodu danego koloru
+        public Car FirstByColor(string color)  
         {
             var cars = _carsRepository.GetAll();
             return cars.First(x => x.Color == color);
@@ -123,7 +114,7 @@ namespace MotoAppmod4App.Components.DataProviders
         public Car? FirstOrDefaultByColor(string color)
         {
 
-            var cars = _carsRepository.GetAll();  //może być nullem zwraca null w przypadku braku samochodu danego koloru ten sam kod ale z /?/
+            var cars = _carsRepository.GetAll(); 
             return cars.FirstOrDefault(x => x.Color == color);
         }
 
@@ -139,7 +130,7 @@ namespace MotoAppmod4App.Components.DataProviders
         public Car LastByColor(string color)
         {
             var cars = _carsRepository.GetAll();
-            return cars.Last(x => x.Color == color); //zamiast First używamy last
+            return cars.Last(x => x.Color == color); 
         }
 
         public Car SingleById(int id)
@@ -151,23 +142,22 @@ namespace MotoAppmod4App.Components.DataProviders
         public Car? SingleOrDefaultById(int id)
         {
             var cars = _carsRepository.GetAll();
-            return cars.SingleOrDefault(x => x.Id == id); //id nie istnieje default zwraca null
+            return cars.SingleOrDefault(x => x.Id == id); 
         }
 
 
         //take
         public List<Car> TakeCars(int howMany)
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .OrderBy(x => x.Name)
                 .Take(howMany)
                 .ToList();
         }
-
-        public List<Car> TakeCars(Range range) // przetłumaczenie LINQ funkcja range 
+        public List<Car> TakeCars(Range range) 
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .OrderBy(x => x.Name)
                 .Take(2..7)
@@ -176,7 +166,7 @@ namespace MotoAppmod4App.Components.DataProviders
 
         public List<Car> TakeCarsWhileNameStartsWith(string prefix)
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .OrderBy(x => x.Name)
                 .TakeWhile(x => x.Name.StartsWith(prefix))
@@ -185,16 +175,16 @@ namespace MotoAppmod4App.Components.DataProviders
 
         public List<Car> SkipCars(int howMany)
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
-                .OrderBy(x => x.Name) //połączenie skipa i take robi pageing pominie ilosci stron i wyswietlenie kolejnych page up page down
+                .OrderBy(x => x.Name) 
                 .Skip(howMany)
                 .ToList();
         }
 
         public List<Car> SkipCarsWhileNameStartsWith(string prefix)
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .OrderBy(x => x.Name)
                 .SkipWhile(x => x.Name.StartsWith(prefix))
@@ -203,34 +193,28 @@ namespace MotoAppmod4App.Components.DataProviders
 
         public List<string> DistinctAllColors()
         {
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .Select(x => x.Color)
                 .Distinct()
-                .OrderBy(c => c)  //posortowanie po na nazwie doszlsmy z order by
+                .OrderBy(c => c) 
                 .ToList();
-
-            //podobne do get unique cod   List<string> GetUnqiueCarColors()
         }
 
-        public List<Car> DistinctByColors()  // na obiektach 
-        {
-            //   List<string> GetUnqiueCarColors()
-
-            var cars = _carsRepository.GetAll(); // można raz napisać ale gdy system rozproszony za kazdym racem 
+        public List<Car> DistinctByColors() 
+        {           
+            var cars = _carsRepository.GetAll(); 
             return cars
                 .DistinctBy(x => x.Color)
-                .OrderBy(c => c.Color)  //posortowanie po na nazwie doszlsmy z order by
+                .OrderBy(c => c.Color)  
                 .ToList();
         }
 
-        public List<Car[]> ChunkCars(int size) // zwraca list tablic o okreslonej wielkosci 
+        public List<Car[]> ChunkCars(int size) 
         {
             var cars = _carsRepository.GetAll();
-            return cars.Chunk(size).ToList(); // wysylanie danych paczkami 
+            return cars.Chunk(size).ToList(); 
         }
-
-
     }
 }
 

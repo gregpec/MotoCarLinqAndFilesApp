@@ -5,7 +5,7 @@ namespace MotoAppmod4App.Components.DataProviders.Extensions;
 
 public static class RepositoryExtentions
 {
-    public static void AddBatch<T>(this IRepository<T> repository, T[] items) // fofanie słówka this do klasy static
+    public static void AddBatch<T>(this IRepository<T> repository, T[] items)
      where T : class, IEntity
     {
         foreach (var item in items)
@@ -13,14 +13,11 @@ public static class RepositoryExtentions
             repository.Add(item);
         }
         repository.Save();
-
-        // narazie nie generyczna metoda
     }
 
-    public static void AddBatch<T>(this string s, T[] items) // fofanie słówka this do klasy static
+    public static void AddBatch<T>(this string s, T[] items) 
     where T : class, IEntity
-    {
-        // narazie nie generyczna metoda
+    {     
     }
 
 }

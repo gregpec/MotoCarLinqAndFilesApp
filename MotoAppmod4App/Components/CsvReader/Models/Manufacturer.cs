@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MotoAppmod4App.Components.CsvReader.Models
+﻿namespace MotoAppmod4App.Components.CsvReader.Models
 {
     public class Manufacturer
     {

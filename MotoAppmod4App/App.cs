@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Xml.Linq;
 using MotoAppmod4App.Components.CsvReader;
-using MotoAppmod4App.Components.DataProviders;
 
 public class App : IApp
 {
@@ -10,7 +9,6 @@ public class App : IApp
     public App(ICsvReader csvReader)
     {
         _csvReader = csvReader;
-       // _carsProvider = carsProvider;
     }
     public void Run()
     {
@@ -22,23 +20,21 @@ public class App : IApp
         var document = new XDocument();
         var cars = new XElement("Cars", records
             .Select(x =>
-            new XElement("Car", // dodanie atrybutów  słówka w kodzie funkcje ferameworki
+            new XElement("Car",
                 new XAttribute("Name", x.Name),
                  new XAttribute("Combined", x.Combined),
-                  new XAttribute("Manufacturer", x.Manufacturer)))); // wykorzystanie trzech klas z przestrzeni systemu LINQ
+                  new XAttribute("Manufacturer", x.Manufacturer))));
         document.Add(cars);
         document.Save("fuel.xml");
     }
     private void BMWCarXml()
     {
         string filePath = "fuel.xml";
-        // Check if the file path is null or empty
         if (string.IsNullOrEmpty(filePath))
         {
             Console.WriteLine("The file path is null or empty.");
             return;
         }
-        // Check if the file exists
         if (!File.Exists(filePath))
         {
             Console.WriteLine($"The file {filePath} does not exist.");
@@ -129,29 +125,28 @@ public class App : IApp
                 car.Name,
                 car.Combined
             })
-            .OrderByDescending(x => x.Country) //Combined
+            .OrderByDescending(x => x.Country)
             .ThenBy(x => x.Name);
 
         foreach (var car in carsInCountry)
         {
             Console.WriteLine($"Country:{car.Country}");
-            var ca = carsInCountry;            //new
             Console.WriteLine($"\t Max:{car.Name}");
             Console.WriteLine($"\t Average:{car.Combined}");
         }
         var document = new XDocument();
         var carss = new XElement("Cars", cars
             .Select(x =>
-            new XElement("Car", // dodanie atrybutów  słówka w kodzie funkcje ferameworki
+            new XElement("Car",
                 new XAttribute("Name", x.Name),
                  new XAttribute("Combined", x.Combined),
-                  new XAttribute("Manufacturer", x.Manufacturer)))); // wykorzystanie trzech klas z przestrzeni systemu LINQ
+                  new XAttribute("Manufacturer", x.Manufacturer))));
         document.Add(carss);
         document.Save("fuel.xml");
     }
     private void XML()
     {
-    var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
+        var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
         var manufacturers = _csvReader.ProcessManufacturer("Resources\\Files\\manufacturers.csv");
         var document = new XDocument();
         var sortedManufacturers = manufacturers.OrderBy(m => m.Country).ToList();
@@ -162,7 +157,7 @@ public class App : IApp
                new XElement("Cars",
                    new XAttribute("country", m.Country),
                    new XAttribute("CombinedSum", cars.Where(c => c.Manufacturer == m.Name).Sum(c => c.Combined)),
-                   cars.Where(c => c.Manufacturer == m.Name).Select(c => 
+                   cars.Where(c => c.Manufacturer == m.Name).Select(c =>
                        new XElement("Car",
                        new XAttribute("Model", c.Name),
                        new XAttribute("Combined", c.Combined)
@@ -170,14 +165,12 @@ public class App : IApp
                )
            ))
        );
-              document.Add(xml);
-              document.Save("ModelsOfCarInCountry.xml"); 
-        // Wyświetlenie XML-a
+        document.Add(xml);
+        document.Save("ModelsOfCarInCountry.xml");
         Console.WriteLine(xml);
     }
     private void ConsoleXML()
-    {   
-        //tatic void DisplayTemplate(List<Car> cars, List<Manufacturer> manufacturers)
+    {
         var cars = _csvReader.ProcessCars("Resources\\Files\\fuel.csv");
         var manufacturers = _csvReader.ProcessManufacturer("Resources\\Files\\manufacturers.csv");
         {
@@ -187,9 +180,6 @@ public class App : IApp
                 var manufacturerCars = cars.Where(c => c.Manufacturer == manufacturer.Name).ToList();
                 int combinedSum = manufacturerCars
                        .Sum(c => c.Combined);
-                    //  .GroupBy(x => x.Manufacturer)
-                   //   .OrderBy(d => d.Manufacturer);
-
                 Console.WriteLine($"\nManufacturer: {manufacturer.Name}, Country: {manufacturer.Country}");
                 Console.WriteLine($"Combined sum: {combinedSum}");
                 Console.WriteLine("--------------------------------------------------");
@@ -220,11 +210,10 @@ public class App : IApp
             Console.WriteLine($"{group.Name}");
             Console.WriteLine($"\t Max:{group.Max}");
             Console.WriteLine($"\t Average:{group.Average}");
-            ; ; ; ; ; ;
         }
     }
     private void UserCommunication()
-    {      
+    {
         string input;
         do
         {
@@ -234,10 +223,10 @@ public class App : IApp
             TextColoring(ConsoleColor.Green, "2. To create file.XML console group of cars by country manufacturers and quantity comnined cars in Country and view group on comsole");
             TextColoring(ConsoleColor.Green, "3. To view on console group of cars by country, name, manufacturersm and quantity comnined cars in Country by manufacturers");
             Console.WriteLine("4. Create Group cars");
-            Console.WriteLine("5. List BMW Car Query XML from file fuel.xml");                 
+            Console.WriteLine("5. List BMW Car Query XML from file fuel.xml");
             Console.WriteLine("6. View manufacturers cars combined");
             Console.WriteLine("7. View cars by manufacturers");
-            Console.WriteLine("8. View Cars by Country ");        
+            Console.WriteLine("8. View Cars by Country ");
             Console.WriteLine(" Press q to exit program: ");
             input = Console.ReadLine();
             Console.WriteLine();
@@ -258,7 +247,7 @@ public class App : IApp
                     {
                         TextColoring(ConsoleColor.DarkGreen, "\n- - Writing to console file XML - -");
                         Console.WriteLine("XML");
-                        ConsoleXML();                      
+                        ConsoleXML();
                     }
                     break;
                 case "4":
@@ -274,14 +263,18 @@ public class App : IApp
                     }
                     break;
                 case "6":
-                    Console.WriteLine("Manufacturers Cars Combined");
-                    ManufacturersCarCombined();
+                    {
+                        Console.WriteLine("Manufacturers Cars Combined");
+                        ManufacturersCarCombined();
+                    }
                     break;
                 case "7":
-                    Console.WriteLine("View cars by manufacturers");
-                    CarsManufacturer();
+                    {
+                        Console.WriteLine("View cars by manufacturers");
+                        CarsManufacturer();
+                    }
                     break;
-           
+
                 case "8":
                     {
                         TextColoring(ConsoleColor.DarkGreen, "\n- - to view Cars by Country - -");

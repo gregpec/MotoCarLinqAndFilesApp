@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace MotoAppmod4App.Data.Entities
 {
@@ -28,7 +24,7 @@ namespace MotoAppmod4App.Data.Entities
 
             sb.AppendLine($"{Name} ID: {Id}");
             sb.AppendLine($"    Color {Color}   Type: {Type ?? "n/a"}");
-            sb.AppendLine($"    Cost {StandardCost:p}   Price: {ListPrice:p}"); // c waluta p procent n separatory dzesietne
+            sb.AppendLine($"    Cost {StandardCost:p}   Price: {ListPrice:p}"); 
             if (NameLength.HasValue)
             {
                 sb.AppendLine($"    Name Length:   {NameLength}");
