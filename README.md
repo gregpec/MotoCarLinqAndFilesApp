@@ -1,1 +1,2 @@
 # MotoAppmod4App
+The program creates the cars group XML file by manufacturers from different countries and the number of cars and displays the group in the console based on the fuel.csv and manufacturer.csv files

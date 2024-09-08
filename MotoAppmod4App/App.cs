@@ -1,4 +1,7 @@
 ﻿namespace MotoAppmod4App;
+using System.Diagnostics.Metrics;
+
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using MotoAppmod4App.Components.CsvReader;
@@ -83,7 +86,7 @@ public class App : IApp
     }
     public void CarsManufacturer()
     {
-        string filePath = "\\Debug\\net8.0\\fuel.xml";
+        string filePath = "fuel.xml";
         if (!File.Exists(filePath))
         {
             Console.WriteLine($"The file {filePath} does not exist.");
@@ -125,13 +128,13 @@ public class App : IApp
                 car.Name,
                 car.Combined
             })
-            .OrderByDescending(x => x.Country)
-            .ThenBy(x => x.Name);
+            .OrderBy(x => x.Country)
+            .ThenBy(x => x.Combined);
 
         foreach (var car in carsInCountry)
         {
             Console.WriteLine($"Country:{car.Country}");
-            Console.WriteLine($"\t Max:{car.Name}");
+            Console.WriteLine($"\t Name:{car.Name}");
             Console.WriteLine($"\t Average:{car.Combined}");
         }
         var document = new XDocument();
@@ -142,7 +145,7 @@ public class App : IApp
                  new XAttribute("Combined", x.Combined),
                   new XAttribute("Manufacturer", x.Manufacturer))));
         document.Add(carss);
-        document.Save("fuel.xml");
+        document.Save("cars.xml");
     }
     private void XML()
     {
@@ -220,13 +223,12 @@ public class App : IApp
             TextColoring(ConsoleColor.Yellow, "Welcome to Aplication Commission App");
             Console.WriteLine("\n================= MENU Data Cars and Customers ================");
             Console.WriteLine("1. To create file fuel.XML");
-            TextColoring(ConsoleColor.Green, "2. To create file.XML console group of cars by country manufacturers and quantity comnined cars in Country and view group on comsole");
-            TextColoring(ConsoleColor.Green, "3. To view on console group of cars by country, name, manufacturersm and quantity comnined cars in Country by manufacturers");
+            TextColoring(ConsoleColor.Green, "2. To create a cars group XML file by country, manufacturers and number of cars in the country and display the group of in the console based on the fuel.csv and manufacturers.csv files");
+            TextColoring(ConsoleColor.Green, "3. To display a group of cars by country, name, manufacturer and number of cars in a country by manufacturer on the console ");
             Console.WriteLine("4. Create Group cars");
-            Console.WriteLine("5. List BMW Car Query XML from file fuel.xml");
-            Console.WriteLine("6. View manufacturers cars combined");
-            Console.WriteLine("7. View cars by manufacturers");
-            Console.WriteLine("8. View Cars by Country ");
+            Console.WriteLine("5. List BMW cars from file fuel.xml");
+            Console.WriteLine("6. View manufacturers by cars combined");
+            Console.WriteLine("7. View cars by country ");
             Console.WriteLine(" Press q to exit program: ");
             input = Console.ReadLine();
             Console.WriteLine();
@@ -269,13 +271,6 @@ public class App : IApp
                     }
                     break;
                 case "7":
-                    {
-                        Console.WriteLine("View cars by manufacturers");
-                        CarsManufacturer();
-                    }
-                    break;
-
-                case "8":
                     {
                         TextColoring(ConsoleColor.DarkGreen, "\n- - to view Cars by Country - -");
                         CarsInCountry();

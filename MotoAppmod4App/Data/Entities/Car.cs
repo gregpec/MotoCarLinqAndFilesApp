@@ -9,9 +9,6 @@ namespace MotoAppmod4App.Data.Entities
         public decimal StandardCost { get; set; }
         public decimal ListPrice { get; set; }
         public string Type { get; set; }
-
-        //Calculated Properties
-
         public int? NameLength { get; set; }
 
         public decimal? TotalSales { get; set; }

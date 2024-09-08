@@ -7,7 +7,6 @@ public class CsvReader:ICsvReader
 {
     public List<Car> ProcessCars(string filePath)
     {
-
     if (!File.Exists(filePath)) 
         {
             return new List<Car>();
@@ -15,11 +14,9 @@ public class CsvReader:ICsvReader
         var cars = File.ReadAllLines(filePath)
             .Skip(1)
             .Where(x => x.Length > 1)
-            .ToCar()
-            ;
+            .ToCar();
         return cars.ToList();
     }
-
     public List<Manufacturer> ProcessManufacturer(string filePath)
     {
         if (!File.Exists(filePath))
@@ -39,9 +36,7 @@ public class CsvReader:ICsvReader
                   Year = int.Parse(columns[2])
               };
           });
-
         return manufacturers.ToList();
-    }
-    
+    }  
 }
 
